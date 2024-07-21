@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mato_app/splash.dart';
+import 'package:vubayu/splash.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'results2.dart';
+// ignore: unused_import
+import 'dart:io';
 
 class ResultsPage extends StatelessWidget {
   final String sampleName;
@@ -17,9 +20,15 @@ class ResultsPage extends StatelessWidget {
   final double soilRelatedRespirationRate;
   final double contentsPerSquarePixels;
   final double totalCarbonInputOnSoil;
+  // New properties
+  final String porosity;
+  final double gasExchangeCapacity;
+  final String rocksPresence;
+  final double weatheringRate;
+  final String imagePath;
 
   const ResultsPage({
-    super.key,
+     super.key,
     required this.sampleName,
     required this.season,
     required this.timing,
@@ -35,7 +44,14 @@ class ResultsPage extends StatelessWidget {
     required this.soilRelatedRespirationRate,
     required this.contentsPerSquarePixels,
     required this.totalCarbonInputOnSoil,
+    // New required properties
+    required this.porosity,
+    required this.gasExchangeCapacity,
+    required this.rocksPresence,
+    required this.weatheringRate,
+    required this.imagePath,
   });
+  
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +62,15 @@ class ResultsPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Color(0xFF00ffbc)),
           onPressed: () => Navigator.of(context).pop(),
         ),
-      actions: const [
-              Padding(
-                padding: EdgeInsets.only(right: 28, top: 4.0),
-                child: Text(
-                  'vubayu results',
-                  style: TextStyle(color: Color(0xFF00FFbc), fontSize: 20),
-                ),
-              ),
-               ],
-            
-          
-        
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 28, top: 4.0),
+            child: Text(
+              'vubayu results',
+              style: TextStyle(color: Color(0xFF00FFbc), fontSize: 20),
+            ),
+          ),
+        ],
         backgroundColor: const Color(0xFF1a282f),
       ),
       body: SingleChildScrollView(
@@ -67,12 +80,17 @@ class ResultsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
-                'VISUALIZATION',
+                'VISUALISATION',
                 style: TextStyle(color: Color(0xFF00FFbc), fontSize: 18),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               _buildVisualizationCard(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
+               const Text(
+                'Click on the cards for details:',
+                style: TextStyle(color: Color(0xFF00FFbc), fontSize: 16),
+              ),
+              const SizedBox(height: 12),
               _buildInfoCard(
                 'Color',
                 color,
@@ -88,6 +106,23 @@ class ResultsPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _buildDoughnutChartCards(),
+              const SizedBox(height: 16),
+              // New cards
+              _buildInfoCard(
+                'Porosity',
+                porosity,
+                'Gas Exchange Capacity',
+                gasExchangeCapacity,
+              ),
+              const SizedBox(height: 16),
+              _buildInfoCard(
+                'Rocks Presence',
+                rocksPresence,
+                'Weathering Rate',
+                weatheringRate,
+              ),
+               const SizedBox(height: 16),
+              _buildAdditionalFeaturesButton(context),
             ],
           ),
         ),
@@ -95,63 +130,61 @@ class ResultsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildVisualizationCard() {
-    return Card(
-      color: const Color(0xFF00FFbc),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Name: $sampleName',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF1a282f)),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Season: $season',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF1a282f)),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Timing: $timing',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF1a282f)),
-                    ),
-                  ],
+Widget _buildVisualizationCard() {
+  return Card(
+    color: const Color(0xFF00FFbc),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(24),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Name: $sampleName',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF1a282f)),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1a282f),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'IMAGE\nHERE',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Color(0xFFffffff)),
-                    ),
-                  ),
+                const SizedBox(height: 4),
+                Text(
+                  'Season: $season',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF1a282f)),
                 ),
-              ),
-            ],
+                const SizedBox(height: 4),
+                Text(
+                  'Timing: $timing',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFF1a282f)),
+                ),
+              ],
+            ),
           ),
-        ),
+          const SizedBox(width: 8),
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: const Color(0xFF1a282f),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.file(
+                File(imagePath),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildInfoCard(String label, String value, String subtitle, double percentage) {
     return Card(
@@ -189,12 +222,12 @@ class ResultsPage extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               subtitle,
-              style: const TextStyle(color: Color(0xFF00FFbc), fontSize: 14),
+              style: const TextStyle(color: Color(0xFF00FFbc), fontSize: 15),
             ),
             const SizedBox(height: 8),
             TweenAnimationBuilder<double>(
               tween: Tween<double>(begin: 0, end: percentage / 100),
-              duration: const Duration(seconds: 2),
+              duration: const Duration(milliseconds: 1500),
               builder: (context, value, _) => CustomPaint(
                 painter: RoundedLinearProgressPainter(
                   backgroundColor: const Color(0xFF00805e),
@@ -212,7 +245,7 @@ class ResultsPage extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Text(
                 '${percentage.toStringAsFixed(0)}%',
-                style: const TextStyle(color: Color(0xFF00FFbc), fontSize: 14),
+                style: const TextStyle(color: Color(0xFF00FFbc), fontSize: 15),
               ),
             ),
           ],
@@ -225,7 +258,7 @@ class ResultsPage extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final cardWidth = (constraints.maxWidth - 16) / 2;
-        final cardHeight = cardWidth * 1.2; // Increase height by 20%
+        final cardHeight = cardWidth * 1.2;
         return Wrap(
           spacing: 16,
           runSpacing: 16,
@@ -240,7 +273,8 @@ class ResultsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDoughnutChartCard(String title, String subtitle, double percentage, double width, double height, {Duration animationDuration = const Duration(milliseconds: 1500)}) {
+  // ignore: unused_element
+  Widget _buildDoughnutChartCard(String title, String subtitle, double percentage, double width, double height, {Duration animationDuration = const Duration(milliseconds: 1000)}) {
     return SizedBox(
       width: width,
       height: height,
@@ -275,18 +309,18 @@ class ResultsPage extends StatelessWidget {
                       ringStrokeWidth: 10,
                       legendOptions: const LegendOptions(showLegends: false),
                       chartValuesOptions: const ChartValuesOptions(showChartValues: false),
-                      animationDuration: animationDuration = const Duration(milliseconds: 2000),
+                      animationDuration: const Duration(milliseconds: 2000),
                     ),
                     Text(
                       '${percentage.toStringAsFixed(0)}%',
-                      style: const TextStyle(color: Color(0xFF00FFbc), fontSize: 14, fontWeight: FontWeight.normal),
+                      style: const TextStyle(color: Color(0xFF00FFbc), fontSize: 15, fontWeight: FontWeight.normal),
                     ),
                   ],
                 ),
               ),
               Text(
                 subtitle,
-                style: const TextStyle(color: Color(0xFF00FFbc), fontSize: 12),
+                style: const TextStyle(color: Color(0xFF00FFbc), fontSize: 15),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -333,4 +367,55 @@ class RoundedLinearProgressPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;
+  
+}
+
+Widget _buildAdditionalFeaturesButton(BuildContext context) {
+  return Center(
+    child: SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85, // 85% of screen width
+      child: ElevatedButton(
+        onPressed: () {
+          // Navigate to Results2Page with the required values
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Results2Page(
+                seedsCashCropsValue1: 'Cotton',
+                seedsCashCropsValue2: 'Soybeans',
+                endangeredSpeciesValue1: 'Bengal Tiger',
+                endangeredSpeciesValue2: 'Indian Elephant',
+                farmingToolsValue1: 'Organic Fertilizers',
+                farmingToolsValue2: 'Drip Irrigation',
+                alternativeValue1: 'Urea & Nitrogen',
+                alternativeValue2: 'Pottery Making',
+                bestCaptureValue1: 'High',
+                bestCaptureValue2: 'No Impact',
+                cultivationSystemValue1: 'Yes',
+                cultivationSystemValue2: 'Light Houses',
+                naturalDisasterValue1: 'Earthquake',
+                naturalDisasterValue2: 'Drought',
+              ),
+            ),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF00ffbc),
+          foregroundColor: const Color(0xFF1a282f),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        ),
+        child: const Text(
+          'Additional Environmental Features',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    ),
+  );
 }
