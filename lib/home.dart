@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:vubayu/models/soil.dart';
+import 'package:vubayu/weather.dart';
 import 'package:vubayu/utils/json_parsing.dart';
 import 'package:vubayu/utils/prompt_utils.dart';
 import 'results.dart';
@@ -586,8 +587,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Icon(Icons.adjust_outlined),
               ),
               IconButton(
-                icon: const Icon(Icons.map_outlined, color: Color(0xFF00ffbc)),
-                onPressed: () {},
+                icon: const Icon(Icons.cloud_outlined,
+                    color: Color(0xFF00ffbc)), // changed from map
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const WeatherPage()),
+                  );
+                },
               ),
               IconButton(
                 icon:

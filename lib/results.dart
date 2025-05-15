@@ -354,8 +354,7 @@ class ResultsPage extends StatelessWidget {
       double width,
       double height,
       String dialogTitle,
-      String dialogContent,
-      {Duration animationDuration = const Duration(milliseconds: 1000)}) {
+      String dialogContent) {
     return GestureDetector(
       onTap: () {
         _showCardDialog(context, dialogTitle, dialogContent);
